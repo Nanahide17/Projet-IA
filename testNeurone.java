@@ -3,7 +3,7 @@ public class testNeurone
 	public static void main(String[] args)
 	{
 		// Tableau des entrées de la fonction ET (0 = faux, 1 = vrai)
-		final float[][] entrees = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+		final float[][] entrees = {{0f, 0f}, {0f, 1f}, {1f, 0f}, {1f, 1f}, {1.001f , 0.001f}};
 		
 		// Tableau des sorties de la fonction ET
 		final float[] resultats = {0, 0, 0, 1};
@@ -14,8 +14,8 @@ public class testNeurone
 		*/
 		
 		// On crée un neurone taillé pour apprendre la fonction ET
-		//final iNeurone n = new NeuroneHeavyside(entrees[0].length);
-		final iNeurone n = new NeuroneSigmoide(entrees[0].length);
+		final iNeurone n = new NeuroneHeavyside(entrees[0].length);
+		//final iNeurone n = new NeuroneSigmoide(entrees[0].length);
 		//final iNeurone n = new NeuroneReLU(entrees[0].length);
 		
 		System.out.println("Apprentissage…");
@@ -47,7 +47,7 @@ public class testNeurone
 			// On affiche cette sortie
 			System.out.println("Entree "+i+" : "+n.sortie());
 		}
-
+		
 		/*
 		final NeuroneReLU relu = (NeuroneReLU)n;
 		System.out.print("Synapses : ");
@@ -66,7 +66,7 @@ public class testNeurone
 			// On affiche cette sortie
 			System.out.println("Entree "+i+" : "+n.sortie());
 		}*/
-		
+				
 		/*
 		final NeuroneSigmoide sigmo = (NeuroneSigmoide)n;
 		System.out.print("Synapses : ");
@@ -85,7 +85,6 @@ public class testNeurone
 			// On affiche cette sortie
 			System.out.println("Entree "+i+" : "+n.sortie());
 		}
-		*/
-
+		*/		
 	}
 }
