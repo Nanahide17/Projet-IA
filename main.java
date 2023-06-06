@@ -1,42 +1,64 @@
-import java.util.Arrays;
-import java.io.File;
-import java.nio.ByteBuffer;
-import java.nio.ShortBuffer;
-import java.nio.ByteOrder;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.AudioFormat;
+import javax.print.event.PrintEvent;
 
-public class Main {
-    // Copiez ici le code de la classe Son
-
-    // Copiez ici le code de la classe FFTCplx avec les modifications nécessaires
-
+public class main {
     public static void main(String[] args) {
-        String fichierSon = "chemin/vers/fichier.wav";
+        if (args.length == 1) {
+            System.out.println("Lecture du fichier WAV " + args[0]);
+            Son son = new Son(args[0]);
+
+            // System.out.println("Fichier "+args[0]+" : "+son.donnees().length+"
+            // échantillons à "+son.frequence()+"Hz");
+            // System.out.println("Bloc 1 : "+son.bloc_deTaille(1, 512).length+"
+            // échantillons à "+son.frequence()+"Hz");
+
+            float[] donnees = son.donnees();
+
+            int nombreEchantillon = 4096; // Taille de votre bloc
+            int nombreBlocs = donnees.length / nombreEchantillon;
+
+            double freq=0;
+
+            double AmplitudeMaxPic = 0;
+            double AmplitudePicIteration = 0;
+            double AmplitudeMAX=0;
+            
+
+            for (int bloc = 0; bloc < nombreBlocs; bloc++) {
+
+                // Créer un tableau de complexe pour le bloc actuel
+                float[] donneesparBloc = son.bloc_deTaille(bloc, nombreEchantillon);
+                Complexe[] cplx = new Complexe[nombreEchantillon];
         
-        Son son = new Son(fichierSon);
+                for (int i = 0; i < nombreEchantillon; i++) {
+                    cplx[i] = new ComplexeCartesien(donneesparBloc[i], 0);
+                }
         
-        // Utilisez les méthodes de la classe Son selon vos besoins
-        int frequence = son.frequence();
-        float[] donnees = son.donnees();
+                // Appliquer la FFT
+                Complexe[]  ResultatFonction= FFTCplx.appliqueSur(cplx);
         
-        // Utilisez les valeurs retournées selon vos besoins
-        // ...
-        
-        Complexe[] signal = convertirEnComplexe(donnees);
-        
-        Complexe[] resultatFFT = FFTCplx.appliqueSur(signal);
-        
-        // Utilisez les valeurs du résultat FFT selon vos besoins
-        // ...
-    }
-    
-    private static Complexe[] convertirEnComplexe(float[] donnees) {
-        Complexe[] signal = new Complexe[donnees.length];
-        for (int i = 0; i < donnees.length; i++) {
-            signal[i] = new ComplexeCartesien(donnees[i], 0);
+                // Chercher le pic
+                int indexPicBloc = 0;
+
+                for (int i = 0; i < ResultatFonction.length/2; i++) {
+                    AmplitudePicIteration = ResultatFonction[i].mod();
+                    if (AmplitudePicIteration > AmplitudeMaxPic) {
+                        AmplitudeMaxPic = AmplitudePicIteration;
+                        indexPicBloc = i;
+                    }
+                }
+                //Affichage de la valeur de max de l'amplitude par bloc
+                System.out.println("Dans le bloc " + bloc + " l'amplitude vaut : "+ AmplitudePicIteration);
+
+                if (AmplitudeMAX < AmplitudePicIteration){
+                    AmplitudeMAX = AmplitudePicIteration;
+                }
+            }
+
+            //Affichage de l'amplitude max tous les blocs
+            System.out.println("amplitude max entre tous les blocs : " + AmplitudeMAX);
         }
-        return signal;
+        else {
+            System.out.println("Veuillez donner le nom d'un fichier WAV en paramètre SVP.");
+        }
     }
 }
