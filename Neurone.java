@@ -95,6 +95,7 @@ public abstract class Neurone implements iNeurone
 					float nouveauBiais = biais+eta*(resultats[i]-sortie());
 					fixeBiais(nouveauBiais);
 					// Et on mémorise que l'apprentissage n'est pas finalisé
+					compteurEchecs++;
 					check=false;
 				}
 			}
