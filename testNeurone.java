@@ -8,6 +8,11 @@ public class testNeurone
 		// Tableau des sorties de la fonction ET
 		final float[] resultats = {0, 0, 0, 1};
 		
+		/*
+		// Tableau des sorties de la fonction OU
+		final float[] resultats = {0, 1, 1, 1};
+		*/
+		
 		// On crée un neurone taillé pour apprendre la fonction ET
 		//final iNeurone n = new NeuroneHeavyside(entrees[0].length);
 		final iNeurone n = new NeuroneSigmoide(entrees[0].length);
@@ -24,7 +29,7 @@ public class testNeurone
 		// à partir de la référence de type iNeurone
 		// Cette conversion peut échouer si l'objet derrière la référence iNeurone
 		// n'est pas de type neurone, ce qui n'est cependant pas le cas ici
-		/*
+		
 		final Neurone vueNeurone = (Neurone)n;
 		System.out.print("Synapses : ");
 		for (final float f : vueNeurone.synapses())
@@ -41,7 +46,7 @@ public class testNeurone
 			n.metAJour(entree);
 			// On affiche cette sortie
 			System.out.println("Entree "+i+" : "+n.sortie());
-		}*/
+		}
 
 		/*
 		final NeuroneReLU relu = (NeuroneReLU)n;
@@ -61,7 +66,8 @@ public class testNeurone
 			// On affiche cette sortie
 			System.out.println("Entree "+i+" : "+n.sortie());
 		}*/
-
+		
+		/*
 		final NeuroneSigmoide sigmo = (NeuroneSigmoide)n;
 		System.out.print("Synapses : ");
 		for (final float f : sigmo.synapses())
@@ -79,6 +85,7 @@ public class testNeurone
 			// On affiche cette sortie
 			System.out.println("Entree "+i+" : "+n.sortie());
 		}
+		*/
 
 	}
 }
